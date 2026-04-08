@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why one compass direction is not the shortest path</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f6efe1'/%3E%3Ccircle cx='32' cy='32' r='18' fill='%238fd0ee' stroke='%23206991' stroke-width='3'/%3E%3Cpath d='M24 40 L40 24' stroke='%23ff6b57' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M34 22 L42 22 L42 30' stroke='%23ff6b57' stroke-width='4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="page-head">
+        <h1 id="page-title">
+          Why flying in one compass direction does not mean flying the shortest path
+        </h1>
+        <p id="page-intro" class="intro">
+          On a Mercator map, a route with a constant bearing looks straight and can still reach the
+          goal. But on a globe it usually is not the shortest route: the shortest path is
+          different.
+        </p>
+      </section>
+      <section class="hero">
+        <div class="globe-shell">
+          <div class="mode-summary">
+            <button id="summary-game" class="summary-pill" type="button">
+              Initial direction = keep the starting bearing
+            </button>
+            <button id="summary-rhumb" class="summary-pill" type="button">
+              Loxodrome = path with a constant bearing
+            </button>
+            <button id="summary-orthodrome" class="summary-pill" type="button">
+              Orthodrome = shortest path
+            </button>
+          </div>
+          <div class="globe-content">
+            <aside class="globe-aside-left">
+              <div class="guide-card azimuth-explainer">
+                <p id="azimuth-explainer-title" class="guide-title">What is a bearing?</p>
+                <div class="azimuth-mini">
+                  <div class="azimuth-mini-compass" aria-hidden="true">
+                    <span id="mini-compass-north" class="azimuth-mini-north">N</span>
+                    <span id="mini-compass-east" class="azimuth-mini-east">E</span>
+                    <span class="azimuth-mini-arrow"></span>
+                    <span class="azimuth-mini-arc"></span>
+                  </div>
+                </div>
+                <p id="azimuth-explainer-body">
+                  A bearing is the angle measured clockwise from north. If the arrow points between
+                  north and east, that is a north-east bearing.
+                </p>
+              </div>
+              <div class="guide-card short-distance-card">
+                <p id="short-distance-title" class="guide-title">When this is barely visible</p>
+                <p id="short-distance-body">
+                  If you travel only a short distance, Earth feels almost flat. Over small
+                  distances, the difference between these routes is usually tiny enough to ignore.
+                </p>
+              </div>
+            </aside>
+            <div class="map-panel">
+              <div class="guide-card explanation-card">
+                <p id="explanation-title" class="guide-title">What this mode shows</p>
+                <p id="explanation-body" class="explanation-body">
+                  We take the direction to the goal only at the start and then never change it. On
+                  a globe, that route slowly drifts away from the goal.
+                </p>
+              </div>
+              <div class="playback-panel">
+                <div class="playback-row">
+                  <button id="play-button" class="primary playback-button" type="button">Start</button>
+                  <div class="playback-slider">
+                    <input
+                      id="progress-slider"
+                      class="progress-slider"
+                      type="range"
+                      min="0"
+                      max="1000"
+                      value="0"
+                    />
+                    <output id="progress-label" for="progress-slider">0%</output>
+                  </div>
+                </div>
+              </div>
+              <div class="globe-frame">
+                <div id="globe" class="globe-stage" aria-label="Interactive globe"></div>
+              </div>
+            </div>
+            <aside class="globe-sidebar">
+              <div class="mode-panel">
+                <div class="mode-group">
+                  <p id="projection-title" class="guide-title">Projection</p>
+                  <div class="segmented">
+                    <button id="projection-globe" class="segment is-active" type="button">Globe</button>
+                    <button id="projection-mercator" class="segment" type="button">Mercator</button>
+                  </div>
+                </div>
+              </div>
+              <div class="azimuth-panel">
+                <div class="azimuth-card">
+                  <p id="chosen-bearing-title" class="guide-title">Chosen bearing</p>
+                  <p id="chosen-bearing-copy" class="azimuth-value">48° • north-east</p>
+                  <p id="chosen-bearing-note" class="azimuth-note">
+                    We take the direction to the goal only at the start and then never turn again.
+                  </p>
+                </div>
+                <div class="azimuth-card">
+                  <p id="goal-bearing-title" class="guide-title">Bearing to the goal now</p>
+                  <p id="goal-bearing-copy" class="azimuth-value">48° • north-east</p>
+                  <p id="bearing-delta" class="azimuth-note">The two arrows still almost match.</p>
+                </div>
+              </div>
+              <div class="compass-card" aria-hidden="true">
+                <div class="compass-display">
+                  <div class="compass" aria-hidden="true">
+                    <span id="compass-north" class="north">N</span>
+                    <span id="compass-east" class="east">E</span>
+                    <span id="compass-south" class="south">S</span>
+                    <span id="compass-west" class="west">W</span>
+                    <span id="compass-goal-arrow" class="compass-arrow compass-arrow-goal"></span>
+                    <span id="compass-active-arrow" class="compass-arrow compass-arrow-active"></span>
+                    <span class="compass-dot"></span>
+                  </div>
+                  <div class="compass-legend">
+                    <p id="compass-active-copy" class="compass-copy compass-copy-active">
+                      Orange arrow: chosen direction
+                    </p>
+                    <p id="compass-goal-copy" class="compass-copy compass-copy-goal">
+                      Blue arrow: bearing to the goal now
+                    </p>
+                  </div>
+                </div>
+                <p id="compass-distance-copy" class="compass-distance">
+                  So far, the chosen path is less than 1 km longer than the shortest arc.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
