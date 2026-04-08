@@ -3,6 +3,9 @@
 Small static D3 example showing why keeping one compass direction on a globe is
 not usually the shortest route.
 
+<img width="1257" height="953" alt="image" src="https://github.com/user-attachments/assets/59c0deb3-b31e-4b43-adee-5fa22c419048" />
+
+
 ## What it includes
 
 - three path modes: initial direction, loxodrome, orthodrome
